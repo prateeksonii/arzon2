@@ -16,5 +16,5 @@ h4,
 h5,
 h6,
 h7 {
-  @apply font-extrabold;
+  @apply font-head font-extrabold;
 }
