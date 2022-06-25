@@ -9,7 +9,7 @@ const HomePage: NextPage = () => {
         <title>Arzon</title>
       </Head>
       <div className="mx-auto flex h-screen w-3/5 flex-col items-center justify-center text-center">
-        <h1 className="text-7xl font-extrabold tracking-tight text-zinc-900">
+        <h1 className="text-7xl font-extrabold tracking-tight">
           Get best deals on the electronics you need.
         </h1>
         <Link href="/catalog">

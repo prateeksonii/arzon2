@@ -18,3 +18,7 @@ h6,
 h7 {
   @apply font-head font-extrabold;
 }
+
+body {
+  @apply bg-zinc-900 text-white;
+}

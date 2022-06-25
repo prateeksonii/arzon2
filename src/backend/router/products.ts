@@ -1,14 +1,10 @@
 import * as trpc from "@trpc/server";
 import { prisma } from "../../db";
 import { z } from "zod";
+import { createProductValidator } from "../../shared/create-product-validator";
 
 export const productsRouter = trpc.router().mutation("create", {
-  input: z.object({
-    name: z.string(),
-    description: z.string(),
-    price: z.number(),
-    imageUrl: z.string().url(),
-  }),
+  input: createProductValidator,
   async resolve({ input }) {
     return await prisma.product.create({
       data: {
