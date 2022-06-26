@@ -26,20 +26,17 @@ const AdminPage: NextPage = () => {
     resolver: zodResolver(createProductValidator),
   });
 
-  const price = watch("price");
-
-  useEffect(() => {
-    console.log({ price, type: typeof price });
-  }, [price]);
-
   const { mutateAsync } = trpc.useMutation("products.create");
 
-  const onSubmit: SubmitHandler<
-    z.infer<typeof createProductValidator>
-  > = async (values) => {
+  const onSubmit: SubmitHandler<z.infer<typeof createProductValidator>> = (
+    values
+  ) => {
     try {
-      await mutateAsync({ ...values, price: +values.price });
-      toast.success("Product created");
+      toast.promise(mutateAsync({ ...values, price: +values.price }), {
+        error: "Something went wrong",
+        success: "Product created successfully",
+        pending: "Creating product...",
+      });
     } catch (err: any) {
       toast.error(err.message);
     }
