@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { trpc } from "../utils/trpc";
 
 const CatalogPage = () => {
@@ -14,7 +15,12 @@ const CatalogPage = () => {
 
   return (
     <div className="mx-auto my-8 w-3/5">
-      <h1 className="text-3xl">Catalog</h1>
+      <nav className="sticky flex items-center justify-between">
+        <h1 className="text-3xl">Catalog</h1>
+        <Link href="/signin">
+          <a className="rounded bg-slate-600 py-2 px-4">Sign in</a>
+        </Link>
+      </nav>
 
       <section className="mt-8">
         {products && products.length > 0 ? (

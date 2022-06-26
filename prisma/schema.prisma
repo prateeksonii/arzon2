@@ -10,25 +10,62 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id        String    @id @default(cuid())
+  name      String
+  email     String
+  password  String
+  userCart  UserCart?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model UserCart {
+  id        String        @id @default(cuid())
+  userId    String        @unique
+  user      User          @relation(fields: [userId], references: [id])
+  products  UserProduct[]
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+}
+
+model UserProduct {
+  id         String    @id @default(cuid())
+  userId     String
+  product    Product   @relation(fields: [productId], references: [id])
+  productId  String
+  quantity   Int
+  UserCart   UserCart? @relation(fields: [userCartId], references: [id])
+  userCartId String?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
 model Product {
-  id          String         @id @default(cuid())
-  name        String
-  description String
-  prices      ProductPrice[]
-  images      ProductImage[]
+  id           String         @id @default(cuid())
+  name         String
+  description  String
+  prices       ProductPrice[]
+  images       ProductImage[]
+  userProducts UserProduct[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
 }
 
 model ProductPrice {
-  id        String  @id @default(cuid())
+  id        String   @id @default(cuid())
   price     Int
-  product   Product @relation(fields: [productId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
   productId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model ProductImage {
-  id       String @id @default(cuid())
-  imageUrl String
-
+  id        String   @id @default(cuid())
+  imageUrl  String
   Product   Product? @relation(fields: [productId], references: [id])
   productId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
