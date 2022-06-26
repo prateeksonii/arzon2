@@ -13,7 +13,7 @@ const HomePage: NextPage = () => {
           Get best deals on the electronics you need.
         </h1>
         <Link href="/catalog">
-          <a className="mt-8 rounded-md bg-indigo-600 px-8 py-4 text-2xl font-bold text-white">
+          <a className="mt-8 rounded-md bg-indigo-600 px-8 py-4 text-xl text-white">
             View catalog
           </a>
         </Link>
