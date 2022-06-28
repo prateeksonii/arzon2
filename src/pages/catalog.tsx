@@ -17,7 +17,7 @@ const CatalogPage = () => {
     <div className="mx-auto my-8 w-3/5">
       <nav className="sticky flex items-center justify-between">
         <h1 className="text-3xl">Catalog</h1>
-        <Link href="/signin">
+        <Link href="/SigninPage">
           <a className="rounded bg-slate-600 py-2 px-4">Sign in</a>
         </Link>
       </nav>
