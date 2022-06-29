@@ -10,7 +10,7 @@ const AdminHOC: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
       "admin.me",
       {
         Authorization: hasLocalStorage
-          ? `Bearer ${localStorage.getItem("arzon-token")}` ?? ""
+          ? `Bearer ${localStorage.getItem("arzon-admin-token")}` ?? ""
           : "",
       },
     ],

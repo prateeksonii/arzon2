@@ -1,13 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { NextPage } from "next";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
 import AdminHOC from "../../components/hoc/AdminHOC";
 import { createProductValidator } from "../../shared/create-product-validator";
-import { loginValidator } from "../../shared/login-validator";
 import { trpc } from "../../utils/trpc";
 
 const AdminPage: NextPage = () => {
@@ -28,11 +25,11 @@ const AdminPage: NextPage = () => {
 
   const { mutateAsync } = trpc.useMutation("products.create");
 
-  const onSubmit: SubmitHandler<z.infer<typeof createProductValidator>> = (
-    values
-  ) => {
+  const onSubmit: SubmitHandler<
+    z.infer<typeof createProductValidator>
+  > = async (values) => {
     try {
-      toast.promise(mutateAsync({ ...values, price: +values.price }), {
+      await toast.promise(mutateAsync({ ...values, price: +values.price }), {
         error: "Something went wrong",
         success: "Product created successfully",
         pending: "Creating product...",

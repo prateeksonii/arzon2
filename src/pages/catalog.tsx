@@ -1,25 +1,69 @@
 import Image from "next/image";
 import Link from "next/link";
 import { trpc } from "../utils/trpc";
+import { useEffect } from "react";
+import { userAtom } from "../atoms/userAtom";
+import { useAtom } from "jotai";
 
 const CatalogPage = () => {
+  const [user, setUser] = useAtom(userAtom);
   const {
     data: products,
     isLoading,
     isError,
   } = trpc.useQuery(["products.all"]);
 
-  if (isLoading) return <div>Loading products...</div>;
+  const { data: userResponse, isLoading: isLoadingUser } = trpc.useQuery(
+    [
+      "users.me",
+      {
+        Authorization:
+          typeof window !== "undefined"
+            ? `Bearer ${localStorage.getItem("arzon-token")}`
+            : "",
+      },
+    ],
+    {
+      enabled: typeof window !== "undefined",
+      retry: false,
+    }
+  );
 
-  if (isError) return <div>Something went wrong. Please reload</div>;
+  useEffect(() => {
+    if (userResponse && userResponse.user) {
+      setUser(userResponse.user);
+    }
+  }, [userResponse]);
+
+  if (isLoadingUser) {
+    return <div suppressHydrationWarning>Checking auth status</div>;
+  }
+
+  if (isLoading) return <div suppressHydrationWarning>Loading products...</div>;
+
+  if (isError)
+    return (
+      <div suppressHydrationWarning>Something went wrong. Please reload</div>
+    );
+
+  const handleSignout = () => {
+    localStorage.removeItem("arzon-token");
+    setUser(null);
+  };
 
   return (
-    <div className="mx-auto my-8 w-3/5">
+    <div suppressHydrationWarning className="mx-auto my-8 w-3/5">
       <nav className="sticky flex items-center justify-between">
         <h1 className="text-3xl">Catalog</h1>
-        <Link href="/SigninPage">
-          <a className="rounded bg-slate-600 py-2 px-4">Sign in</a>
-        </Link>
+        {user ? (
+          <button onClick={handleSignout}>
+            <a className="rounded bg-slate-600 py-2 px-4">Sign out</a>
+          </button>
+        ) : (
+          <Link href="/signin">
+            <a className="rounded bg-slate-600 py-2 px-4">Sign in</a>
+          </Link>
+        )}
       </nav>
 
       <section className="mt-8">

@@ -27,8 +27,8 @@ const LoginPage = () => {
   ) => {
     try {
       const { token } = await mutateAsync(values);
-      localStorage.setItem("arzon-token", token);
-      router.replace("/admin");
+      localStorage.setItem("arzon-admin-token", token);
+      await router.replace("/admin");
     } catch (err) {
       console.error(err);
     }
